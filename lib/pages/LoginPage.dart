@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   //data types
   String name = "";
-  bool isButtonChange = false;
+  bool changeSizeButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,8 @@ class _LoginPageState extends State<LoginPage> {
             SafeArea(
               child: Image.asset(
                 "assets/bird.png",
+                width: 200,
+                height: 200,
                 fit: BoxFit.cover,
               ),
             ),
@@ -79,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             /*  ElevatedButton(
               onPressed: () {
@@ -90,14 +92,31 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ), */
-            AnimatedContainer(
-              height: 30,
-              width: 50,
-              duration: Duration(seconds: 1),
-              alignment: Alignment.center,
-              child:
-                  Text("login", style: TextStyle(fontWeight: FontWeight.bold)),
-              decoration: BoxDecoration(color: Colors.orange),
+            InkWell(
+              onTap: () async {
+                setState(() {
+                  changeSizeButton = true;
+                });
+                await Future.delayed(Duration(seconds: 1));
+                await Navigator.pushNamed(context, MyRoute.homeRoute);
+                setState(() {
+                  changeSizeButton = false;
+                });
+              },
+              child: AnimatedContainer(
+                height: 35,
+                width: changeSizeButton ? 50 : 90,
+                duration: Duration(seconds: 1),
+                alignment: Alignment.center,
+                child: changeSizeButton
+                    ? Icon(Icons.done)
+                    : Text("login",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                decoration: BoxDecoration(
+                    color: Colors.orange,
+                    borderRadius:
+                        BorderRadius.circular(changeSizeButton ? 50 : 8)),
+              ),
             ),
           ],
         ),
